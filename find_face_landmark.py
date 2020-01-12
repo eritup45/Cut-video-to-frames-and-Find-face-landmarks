@@ -58,7 +58,7 @@ def find_face_landmark(image_folder, coordinates_txt):
 
 
 def main():
-    find_face_landmark('.//image//', '27_landmarks.txt')
+    find_face_landmark('.//27_image//', '27_landmarks.txt')
 
 if __name__ == "__main__":
     main()

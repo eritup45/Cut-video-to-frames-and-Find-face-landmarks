@@ -39,7 +39,7 @@ def video_to_frame(filename, result_path):
 
 
 def main():
-    video_to_frame('406410027.mp4', './/image//')
+    video_to_frame('406410027.mp4', './/27_ori_image//')
     print('video_to_frame Done.')
 
 
