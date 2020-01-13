@@ -17,6 +17,9 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(
     ".//cascades//shape_predictor_68_face_landmarks.dat")
 
+cnt=0
+shape = 0
+
 def detect_face_landmarks(filename, coordinates_txt):
     # store x, y
     with open(coordinates_txt, 'a') as f:
@@ -26,10 +29,19 @@ def detect_face_landmarks(filename, coordinates_txt):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = detector(gray, 1)
 
+    global shape
+    global cnt
+    if cnt<3:
+        print(cnt)
+        print(shape)
+        cnt = cnt +1
+        
     for face in faces:
         shape = predictor(gray, face)
         shape = face_utils.shape_to_np(shape)
-
+        # if not shape:
+        #     print('shape is false')
+        
         (x, y, w, h) = face_utils.rect_to_bb(face)
 
         for (x, y) in shape:
@@ -45,7 +57,8 @@ def detect_face_landmarks(filename, coordinates_txt):
 
     cv2.imwrite(filename, img)
     
-
+# image_folder: input folder also output folder
+# coordinates_txt: output landmarks coordingate file
 def find_face_landmark(image_folder, coordinates_txt):
     # init coordinates_txt
     with open(coordinates_txt, 'w') as f:

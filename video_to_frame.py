@@ -2,6 +2,8 @@
 # To use the function:
 #   "from video_to_frame include video_to_frame"
 #   "video_to_frame(filename, result_path)"
+#   filename: video name 
+#   result_path: output folder of cut images
 import cv2
 import os
 import glob
@@ -19,7 +21,8 @@ def getFrame(vidcap, sec, count, result_path):
                     image)     # save frame as JPG file
     return hasFrames
 
-
+# filename: video name 
+# result_path: output folder of cut images
 def video_to_frame(filename, result_path):
     # create folder 'image'
     if not os.path.isdir(result_path):
