@@ -1,4 +1,4 @@
-# Find face landmarks 
+# Find face landmarks
 # To use the function:
 #   "from find_face_landmark include find_face_landmark"
 #   "find_face_landmark(coordinates_txt, image_folder)"
@@ -25,13 +25,16 @@ def detect_face_landmarks(filename, coordinates_txt):
     img = cv2.imread(filename)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = detector(gray, 1)
-        
+
+    f_flag = 0    # detect no face
     for face in faces:
+        f_flag = 1    # detect face
+
         shape = predictor(gray, face)
         shape = face_utils.shape_to_np(shape)
         # if not shape:
         #     print('shape is false')
-        
+
         (x, y, w, h) = face_utils.rect_to_bb(face)
 
         for (x, y) in shape:
@@ -41,14 +44,21 @@ def detect_face_landmarks(filename, coordinates_txt):
             # Store the coordinates of (x, y)
             with open(coordinates_txt, 'a') as f:
                 f.write(str(x) + ' ' + str(y) + ' ')
-    
+
+    if f_flag == 0:
+        with open(coordinates_txt, 'a') as f:
+            for x in range(68):
+                f.write('0 0 ')
+
     with open(coordinates_txt, 'a') as f:
         f.write(']\n')
 
     cv2.imwrite(filename, img)
-    
+
 # image_folder: input folder also output folder
 # coordinates_txt: output landmarks coordingate file
+
+
 def find_face_landmark(image_folder, coordinates_txt):
     # init coordinates_txt
     with open(coordinates_txt, 'w') as f:
@@ -62,6 +72,7 @@ def find_face_landmark(image_folder, coordinates_txt):
 
 def main():
     find_face_landmark('.//27_image//', '27_landmarks.txt')
+
 
 if __name__ == "__main__":
     main()
